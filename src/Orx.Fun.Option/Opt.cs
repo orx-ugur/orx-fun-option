@@ -51,7 +51,6 @@ public readonly struct Opt<T> : IEquatable<Opt<T>>
     // throw
     /// <summary>
     /// Returns the option back when <see cref="IsSome"/>; throws a NullReferenceException when <see cref="IsNone"/>.
-    /// Appends the <paramref name="errorMessage"/> to the exception if the message <see cref="IsSome"/>.
     /// Can be called without breaking the flow of chained operations.
     /// <code>
     /// var interestRate = GetOptionalUser(input)
@@ -60,7 +59,6 @@ public readonly struct Opt<T> : IEquatable<Opt<T>>
     ///     .Unwrap();
     /// </code>
     /// </summary>
-    /// <param name="errorMessage">Optional message to append to the exception message.</param>
     public Opt<T> ThrowIfNone()
     {
         if (IsNone)
