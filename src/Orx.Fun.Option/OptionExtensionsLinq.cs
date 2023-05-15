@@ -11,8 +11,8 @@ public static class OptionExtensionsLinq
     /// <summary>
     /// Returns Some of the first element of the <paramref name="collection"/> if it is non-empty; None otherwise.
     /// <code>
-    /// Assert(Array.Empty&lt;Title>().FirstOrNone().IsNone);
-    /// Assert((new int[2] { 1, 2 }).FirstOrNone() == Some(1));
+    /// Assert.True(Array.Empty&lt;Title>().FirstOrNone().IsNone);
+    /// Assert.True((new int[2] { 1, 2 }).FirstOrNone() == Some(1));
     /// </code>
     /// </summary>
     /// <param name="collection">Collection.</param>
