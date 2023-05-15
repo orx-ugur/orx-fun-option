@@ -38,7 +38,7 @@
     <SdkLinkTarget>Blank</SdkLinkTarget>
     <MissingTags>Summary, Parameter, AutoDocumentCtors, Namespace, TypeParameter, AutoDocumentDispose</MissingTags>
     <WarnOnMissingSourceContext>False</WarnOnMissingSourceContext>
-    <WorkingPath>..\..\..\doxygenscratch\</WorkingPath>
+    <WorkingPath>..\..\temp\sandcastle\</WorkingPath>
     <DocumentationSources>
       <DocumentationSource sourceFile="src\Orx.Fun.Option\bin\Debug\net6.0\Orx.Fun.Option.dll" />
 <DocumentationSource sourceFile="src\Orx.Fun.Option\bin\Debug\net6.0\Orx.Fun.Option.xml" /></DocumentationSources>
@@ -92,13 +92,13 @@
       <Argument Key="BibliographyDataFile" Value="" />
       <Argument Key="RootBreadcrumbTitleText" Value="Docs" />
       <Argument Key="CollapsibleSections" Value="True" />
-      <Argument Key="LogoFile" Value="./logo.png" />
-      <Argument Key="LogoHeight" Value="" />
+      <Argument Key="LogoFile" Value="orx-logo.png" />
+      <Argument Key="LogoHeight" Value="50" />
       <Argument Key="LogoWidth" Value="" />
-      <Argument Key="LogoAltText" Value="" />
+      <Argument Key="LogoAltText" Value="orx" />
       <Argument Key="LogoPlacement" Value="Left" />
       <Argument Key="LogoAlignment" Value="Left" />
-      <Argument Key="LogoUrl" Value="" />
+      <Argument Key="LogoUrl" Value="https://github.com/orxfun?tab=repositories" />
       <Argument Key="MaxVersionParts" Value="" />
       <Argument Key="DefaultLanguage" Value="cs" />
       <Argument Key="IncludeEnumValues" Value="True" />
