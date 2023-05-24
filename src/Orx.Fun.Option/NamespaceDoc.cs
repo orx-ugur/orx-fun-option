@@ -7,7 +7,7 @@ namespace Orx.Fun.Option;
 /// <list type="bullet">
 /// <item>Opt&lt;T>: Some(T) or None.</item>
 /// </list>
-/// In order to enable the types glboally, add the following in project's global usings file:
+/// In order to enable the types globally, add the following in project's global usings file:
 /// <code>
 /// global using Orx.Fun.Option;
 /// global using static Orx.Fun.Option.OptionExtensions;
