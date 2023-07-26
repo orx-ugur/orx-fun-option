@@ -105,6 +105,7 @@ public readonly struct Opt<T> : IEquatable<Opt<T>>
             return this;
     }
 
+
     // validate
     /// <summary>
     /// Returns back None if IsNone.
