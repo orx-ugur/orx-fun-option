@@ -105,6 +105,7 @@ public readonly struct Opt<T> : IEquatable<Opt<T>>
             return this;
     }
 
+
     // validate
     /// <summary>
     /// Returns back None if IsNone.
@@ -177,6 +178,13 @@ public readonly struct Opt<T> : IEquatable<Opt<T>>
     /// <param name="lazyFallbackValue">Function to be called lazily to create the return value if the option is None.</param>
     public T UnwrapOr(Func<T> lazyFallbackValue)
         => (IsSome && Val != null) ? Val : lazyFallbackValue();
+    /// <summary>
+    /// (async version)
+    /// <inheritdoc cref="UnwrapOr(Func{T})"/>
+    /// </summary>
+    /// <param name="lazyFallbackValue">Function to be called lazily to create the return value if the option is None.</param>
+    public Task<T> UnwrapOrAsync(Func<Task<T>> lazyFallbackValue)
+        => (IsSome && Val != null) ? Task.FromResult(Val) : lazyFallbackValue();
 
 
     // nullable
@@ -213,6 +221,13 @@ public readonly struct Opt<T> : IEquatable<Opt<T>>
     /// <param name="whenSome">Mapping function (T -> TOut) that will be called with Unwrapped value to get the return value when Some.</param>
     /// <param name="whenNone">Function to be called lazily to get the return value when None.</param>
     public TOut Match<TOut>(Func<T, TOut> whenSome, Func<TOut> whenNone)
+        => (IsSome && Val != null) ? whenSome(Val) : whenNone();
+    /// <summary>
+    /// (async version) <inheritdoc cref="Match{TOut}(Func{T, TOut}, Func{TOut})"/>
+    /// </summary>
+    /// <param name="whenSome">Mapping function (T -> TOut) that will be called with Unwrapped value to get the return value when Some.</param>
+    /// <param name="whenNone">Function to be called lazily to get the return value when None.</param>
+    public Task<TOut> MatchAsync<TOut>(Func<T, Task<TOut>> whenSome, Func<Task<TOut>> whenNone)
         => (IsSome && Val != null) ? whenSome(Val) : whenNone();
     /// <summary>
     /// Executes <paramref name="whenSome"/>(Unwrap()) if IsSome; <paramref name="whenNone"/>() otherwise.
@@ -282,6 +297,12 @@ public readonly struct Opt<T> : IEquatable<Opt<T>>
     /// <param name="map">Mapper function (T -> TOut) to be called with the underlying value when Some.</param>
     public Opt<TOut> Map<TOut>(Func<T, TOut> map)
         => (IsSome && Val != null) ? new(map(Val)) : default;
+    /// <summary>
+    /// (async version) <inheritdoc cref="Map{TOut}(Func{T, TOut})"/>
+    /// </summary>
+    /// <param name="map">Mapper function (T -> TOut) to be called with the underlying value when Some.</param>
+    public async Task<Opt<TOut>> MapAsync<TOut>(Func<T, Task<TOut>> map)
+        => (IsSome && Val != null) ? new(await map(Val)) : new Opt<TOut>();
 
 
     // flat-map
@@ -306,6 +327,12 @@ public readonly struct Opt<T> : IEquatable<Opt<T>>
     /// <param name="map">Function (T -> Opt&lt;TOut>) mapping the underlying value to option of TOut if IsSome.</param>
     public Opt<TOut> FlatMap<TOut>(Func<T, Opt<TOut>> map)
         => (IsSome && Val != null) ? map(Val) : default;
+    /// <summary>
+    /// (async version) <inheritdoc cref="FlatMap{TOut}(Func{T, Opt{TOut}})"/>
+    /// </summary>
+    /// <param name="map">Function (T -> Opt&lt;TOut>) mapping the underlying value to option of TOut if IsSome.</param>
+    public async Task<Opt<TOut>> FlatMap<TOut>(Func<T, Task<Opt<TOut>>> map)
+        => (IsSome && Val != null) ? (await map(Val)) : default;
 
 
     // logical combinations

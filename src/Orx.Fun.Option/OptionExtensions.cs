@@ -126,4 +126,25 @@ public static class OptionExtensions
     /// <returns></returns>
     public static Opt<TOut> Map<T1, T2, TOut>(this Opt<(T1, T2)> option, Func<T1, T2, TOut> map)
         => option.Map(x => map(x.Item1, x.Item2));
+    /// <summary>
+    /// (async version) Allows an option of a tuple (t1, t2) to map with a function taking two arguments t1 and t2.
+    /// 
+    /// <code>
+    /// static int Add(int a, int b) => a + b;
+    /// 
+    /// var numbers = Some((1, 2));
+    /// var sum = numbers.Map(Add);
+    /// Assert(sum == Some(3));
+    /// </code>
+    /// 
+    /// This is mostly useful in enabling function composition.
+    /// </summary>
+    /// <typeparam name="T1">Type of the first argument of the map function.</typeparam>
+    /// <typeparam name="T2">Type of the second argument of the map function.</typeparam>
+    /// <typeparam name="TOut">Type of return value of the map function.</typeparam>
+    /// <param name="option">Option to be mapped.</param>
+    /// <param name="map">Map function.</param>
+    /// <returns></returns>
+    public static Task<Opt<TOut>> Map<T1, T2, TOut>(this Opt<(T1, T2)> option, Func<T1, T2, Task<TOut>> map)
+        => option.MapAsync(async x => await map(x.Item1, x.Item2));
 }
