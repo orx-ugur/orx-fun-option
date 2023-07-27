@@ -85,7 +85,19 @@ string greeting = user.Match(u =&gt; $"Welcome back {u.Name}", () =&gt; QueryAno
         whenSome: u =&gt; Console.WriteLine($"Welcome back {u.Name}"),
         whenNone: Console.WriteLine("Hello")
     );
-}</code></pre></div></div></td></tr><tr><td><a href="M_Orx_Fun_Option_Opt_1_Pure.htm">Pure</a></td><td>
+}</code></pre></div></div></td></tr><tr><td><a href="M_Orx_Fun_Option_Opt_1_Or.htm">Or</a></td><td>
+            Combines two options: this and <span class="parameter">other</span> as follows:
+            <ul><li>returns this if this is Some;</li><li>returns <span class="parameter">other</span> otherwise.</li></ul><p>In other words, this is a flattened alternative to <a href="M_Orx_Fun_Option_Opt_1_UnwrapOr_1.htm">UnwrapOr(T)</a>.</p><div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs">var or = Some(12).Or(Some(13));
+Assert.Equal(Some(12), or);
+
+or = Some(12).Or(None&lt;int&gt;());
+Assert.Equal(Some(12), or);
+
+or = None&lt;int&gt;().Or(Some(13));
+Assert.Equal(Some(13), or);
+
+or = None&lt;int&gt;().Or(None&lt;bool&gt;());
+Assert.True(or.IsNone);</code></pre></div></div></td></tr><tr><td><a href="M_Orx_Fun_Option_Opt_1_Pure.htm">Pure</a></td><td>
             Simply returns Some&lt;T&gt; function: val =&gt; Some(val).
             Useful for composing functions of Opt&lt;T&gt; type.
             </td></tr><tr><td><a href="M_Orx_Fun_Option_Opt_1_SomeIf.htm">SomeIf</a></td><td>
