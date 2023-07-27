@@ -366,6 +366,38 @@ public readonly struct Opt<T> : IEquatable<Opt<T>>
         else
             return new();
     }
+    /// <summary>
+    /// Combines two options: this and <paramref name="other"/> as follows:
+    /// <list type="bullet">
+    /// <item>returns this if this is Some;</item>
+    /// <item>returns <paramref name="other"/> otherwise.</item>
+    /// </list>
+    /// 
+    /// <para>In other words, this is a flattened alternative to <see cref="UnwrapOr(T)"/>.</para>
+    /// 
+    /// <code>
+    /// var or = Some(12).Or(Some(13));
+    /// Assert.Equal(Some(12), or);
+    /// 
+    /// or = Some(12).Or(None&lt;int>());
+    /// Assert.Equal(Some(12), or);
+    /// 
+    /// or = None&lt;int>().Or(Some(13));
+    /// Assert.Equal(Some(13), or);
+    /// 
+    /// or = None&lt;int>().Or(None&lt;bool>());
+    /// Assert.True(or.IsNone);
+    /// </code>
+    /// </summary>
+    /// <param name="other">Other option to combine with.</param>
+    /// <returns></returns>
+    public Opt<T> Or(Opt<T> other)
+    {
+        if (IsSome)
+            return this;
+        else
+            return other;
+    }
 
 
     // compose

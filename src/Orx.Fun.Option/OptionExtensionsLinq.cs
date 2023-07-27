@@ -97,7 +97,7 @@ public static class OptionExtensionsLinq
     }
 
 
-    // array
+    // get
     /// <summary>
     /// Returns Some of the element at the given <paramref name="index"/> of the <paramref name="array"/> if it is a valid index; None otherwise.
     /// <code>
@@ -114,5 +114,150 @@ public static class OptionExtensionsLinq
             return new(array[index]);
         else
             return None<T>();
+    }
+    /// <summary>
+    /// Returns Some of the element at the given <paramref name="index"/> of the <paramref name="list"/> if it is a valid index; None otherwise.
+    /// <code>
+    /// Assert(Array.Empty&lt;Title>().Get(1).IsNone);
+    /// Assert((new List&lt;int>() { 1, 2 }).Get(2) == Some(1));
+    /// Assert((new List&lt;int>() { 1, 2 }).Get(0) == Some(1));
+    /// </code>
+    /// </summary>
+    /// <param name="list">List.</param>
+    /// <param name="index">Index of the element to return.</param>
+    public static Opt<T> Get<T, L>(this L list, int index) where L : IList<T>
+    {
+        if (index >= 0 && index < list.Count)
+            return new(list[index]);
+        else
+            return None<T>();
+    }
+    /// <summary>
+    /// Returns Some of the element at the given <paramref name="index"/> of the <paramref name="span"/> if it is a valid index; None otherwise.
+    /// <code>
+    /// Assert(Array.Empty&lt;Title>().Get(1).IsNone);
+    /// Assert((new int[2] { 1, 2 }).Get(2) == Some(1));
+    /// Assert((new int[2] { 1, 2 }).Get(0) == Some(1));
+    /// </code>
+    /// </summary>
+    /// <param name="span">Span.</param>
+    /// <param name="index">Index of the element to return.</param>
+    public static Opt<T> Get<T>(this ReadOnlySpan<T> span, int index)
+    {
+        if (index >= 0 && index < span.Length)
+            return new(span[index]);
+        else
+            return None<T>();
+    }
+    /// <summary>
+    /// Returns Some of the element at the given <paramref name="index"/> of the <paramref name="span"/> if it is a valid index; None otherwise.
+    /// <code>
+    /// Assert(Array.Empty&lt;Title>().Get(1).IsNone);
+    /// Assert((new int[2] { 1, 2 }).Get(2) == Some(1));
+    /// Assert((new int[2] { 1, 2 }).Get(0) == Some(1));
+    /// </code>
+    /// </summary>
+    /// <param name="span">Span.</param>
+    /// <param name="index">Index of the element to return.</param>
+    public static Opt<T> Get<T>(this Span<T> span, int index)
+    {
+        if (index >= 0 && index < span.Length)
+            return new(span[index]);
+        else
+            return None<T>();
+    }
+    /// <summary>
+    /// Returns Some of the element at the given <paramref name="index"/> of the <paramref name="memory"/> if it is a valid index; None otherwise.
+    /// <code>
+    /// Assert(Array.Empty&lt;Title>().Get(1).IsNone);
+    /// Assert((new int[2] { 1, 2 }).Get(2) == Some(1));
+    /// Assert((new int[2] { 1, 2 }).Get(0) == Some(1));
+    /// </code>
+    /// </summary>
+    /// <param name="memory">Memory.</param>
+    /// <param name="index">Index of the element to return.</param>
+    public static Opt<T> Get<T>(this ReadOnlyMemory<T> memory, int index)
+        => Get(memory.Span, index);
+    /// <summary>
+    /// Returns Some of the element at the given <paramref name="index"/> of the <paramref name="memory"/> if it is a valid index; None otherwise.
+    /// <code>
+    /// Assert(Array.Empty&lt;Title>().Get(1).IsNone);
+    /// Assert((new int[2] { 1, 2 }).Get(2) == Some(1));
+    /// Assert((new int[2] { 1, 2 }).Get(0) == Some(1));
+    /// </code>
+    /// </summary>
+    /// <param name="memory">Memory.</param>
+    /// <param name="index">Index of the element to return.</param>
+    public static Opt<T> Get<T>(this Memory<T> memory, int index)
+        => Get(memory.Span, index);
+
+
+    // enumerated count
+    /// <summary>
+    /// Returns Some of the count of elements in the <paramref name="collection"/> if the count is readily available without enumeration;
+    /// None otherwise.
+    /// <code>
+    /// var array = new int[3] { 0, 1, 2 };
+    /// Assert.Equal(Some(3), array.GetNonEnumeratedCount());
+    /// 
+    /// var odds = array.Where(num => num % 2 == 1);
+    /// Assert.Equal(None&lt;int>(), odds.GetNonEnumeratedCount());
+    /// </code>
+    /// </summary>
+    /// <typeparam name="T">Element type.</typeparam>
+    /// <param name="collection">Collection to get non-enumerated count of.</param>
+    /// <returns></returns>
+    public static Opt<int> GetNonEnumeratedCount<T>(this IEnumerable<T> collection)
+        => collection.TryGetNonEnumeratedCount(out var count) ? Some(count) : None<int>();
+
+
+    // unwrap
+    /// <summary>
+    /// Unwraps all elements in the collection and returns Some of the resulting list.
+    /// If any of the elements is None; then, the method returns None.
+    /// 
+    /// <code>
+    /// var array = new Opt&lt;int>[3] { Some(0), Some(1), Some(2) };
+    /// Opt&lt;List&lt;int>> unwrapped = array.MapUnwrap();
+    /// Assert(unwrappedWithNone.IsSome);
+    /// Assert.Equal(new int[3] { 0, 1, 2 }, unwrapped.Unwrap());
+    /// 
+    /// var arrayWithNone = new Opt&lt;int>[3] { Some(0), None, Some(2) };
+    /// Opt&lt;List&lt;int>> unwrappedWithNone = arrayWithNone.MapUnwrap();
+    /// Assert(unwrappedWithNone.IsNone);
+    /// </code>
+    /// </summary>
+    /// <typeparam name="T">Element type.</typeparam>
+    /// <param name="collection">Collection.</param>
+    /// <returns></returns>
+    public static Opt<List<T>> MapUnwrap<T>(this IEnumerable<Opt<T>> collection)
+    {
+        var list = collection.GetNonEnumeratedCount().Map(count => new List<T>(count)).UnwrapOr(() => new List<T>());
+        foreach (var item in collection)
+        {
+            if (item.IsNone)
+                return None<List<T>>();
+            else
+                list.Add(item.Unwrap());
+        }
+        return Some(list);
+    }
+    /// <summary>
+    /// Returns unwrapped values of the optionals of Some variant in the <paramref name="collection"/>.
+    /// 
+    /// <code>
+    /// var array = new Opt&lt;int>[3] { Some(0), None, Some(2) };
+    /// List&lt;int> unwrapped = array.FilterMapUnwrap();
+    /// Assert.Equal(new int[3] { 0, 2 }, unwrapped);
+    /// </code>
+    /// </summary>
+    /// <typeparam name="T">Element type.</typeparam>
+    /// <param name="collection">Collection.</param>
+    /// <returns></returns>
+    public static IEnumerable<T> FilterMapUnwrap<T>(this IEnumerable<Opt<T>> collection)
+    {
+        foreach (var item in collection)
+            if (item.IsSome)
+                yield return item.Unwrap();
     }
 }
