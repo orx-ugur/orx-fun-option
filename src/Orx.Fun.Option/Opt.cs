@@ -398,6 +398,18 @@ public readonly struct Opt<T> : IEquatable<Opt<T>>
         else
             return other;
     }
+    /// <summary>
+    /// (lazy version) <inheritdoc cref="Or(Opt{T})"/>
+    /// </summary>
+    /// <param name="other">Other option to combine with.</param>
+    /// <returns></returns>
+    public Opt<T> Or(Func<Opt<T>> other)
+    {
+        if (IsSome)
+            return this;
+        else
+            return other();
+    }
 
 
     // compose

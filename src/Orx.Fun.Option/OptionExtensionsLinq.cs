@@ -219,12 +219,12 @@ public static class OptionExtensionsLinq
     /// <code>
     /// var array = new Opt&lt;int>[3] { Some(0), Some(1), Some(2) };
     /// Opt&lt;List&lt;int>> unwrapped = array.MapUnwrap();
-    /// Assert(unwrappedWithNone.IsSome);
+    /// Assert.True(unwrapped.IsSome);
     /// Assert.Equal(new int[3] { 0, 1, 2 }, unwrapped.Unwrap());
     /// 
     /// var arrayWithNone = new Opt&lt;int>[3] { Some(0), None, Some(2) };
     /// Opt&lt;List&lt;int>> unwrappedWithNone = arrayWithNone.MapUnwrap();
-    /// Assert(unwrappedWithNone.IsNone);
+    /// Assert.True(unwrappedWithNone.IsNone);
     /// </code>
     /// </summary>
     /// <typeparam name="T">Element type.</typeparam>
