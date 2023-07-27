@@ -94,7 +94,20 @@ string greeting = user.Match(u =&gt; $"Welcome back {u.Name}", () =&gt; QueryAno
         whenSome: u =&gt; Console.WriteLine($"Welcome back {u.Name}"),
         whenNone: Console.WriteLine("Hello")
     );
-}</code></pre></div></div></td></tr><tr><td><a href="M_Orx_Fun_Option_Opt_1_Or.htm">Or</a></td><td>
+}</code></pre></div></div></td></tr><tr><td><a href="M_Orx_Fun_Option_Opt_1_Or_1.htm">Or(Func<span id="LST94168003_62" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|fs=&lt;'|nu=("></span>Opt<span id="LST94168003_63" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|fs=&lt;'|nu=("></span>T<span id="LST94168003_64" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|fs=&gt;|nu=)"></span><span id="LST94168003_65" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|fs=&gt;|nu=)"></span>)</a></td><td>
+            (lazy version) 
+            Combines two options: this and <span class="parameter">other</span> as follows:
+            <ul><li>returns this if this is Some;</li><li>returns <span class="parameter">other</span> otherwise.</li></ul><p>In other words, this is a flattened alternative to <a href="M_Orx_Fun_Option_Opt_1_UnwrapOr_1.htm">UnwrapOr(T)</a>.</p><div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs">var or = Some(12).Or(Some(13));
+Assert.Equal(Some(12), or);
+
+or = Some(12).Or(None&lt;int&gt;());
+Assert.Equal(Some(12), or);
+
+or = None&lt;int&gt;().Or(Some(13));
+Assert.Equal(Some(13), or);
+
+or = None&lt;int&gt;().Or(None&lt;bool&gt;());
+Assert.True(or.IsNone);</code></pre></div></div></td></tr><tr><td><a href="M_Orx_Fun_Option_Opt_1_Or.htm">Or(Opt<span id="LST94168003_66" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|fs=&lt;'|nu=("></span>T<span id="LST94168003_67" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|fs=&gt;|nu=)"></span>)</a></td><td>
             Combines two options: this and <span class="parameter">other</span> as follows:
             <ul><li>returns this if this is Some;</li><li>returns <span class="parameter">other</span> otherwise.</li></ul><p>In other words, this is a flattened alternative to <a href="M_Orx_Fun_Option_Opt_1_UnwrapOr_1.htm">UnwrapOr(T)</a>.</p><div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs">var or = Some(12).Or(Some(13));
 Assert.Equal(Some(12), or);
@@ -122,7 +135,7 @@ var account = MaybeParseAccount(..)
                 .Validate(acc =&gt; DoesAccountExist(acc.Code));
 // account will be Some(account) only if:
 // - MaybeParseAccount returns Some(account), and further,
-// - both IsAccountNumberValid and DoesAccountExist validation checks return true.</code></pre></div></div></td></tr><tr><td><a href="M_Orx_Fun_Option_Opt_1_ThrowIfNone.htm">ThrowIfNone<span id="LST94168003_62" data-languageSpecificText="cs=()|vb=|cpp=()|nu=()|fs=()"></span></a></td><td>
+// - both IsAccountNumberValid and DoesAccountExist validation checks return true.</code></pre></div></div></td></tr><tr><td><a href="M_Orx_Fun_Option_Opt_1_ThrowIfNone.htm">ThrowIfNone<span id="LST94168003_68" data-languageSpecificText="cs=()|vb=|cpp=()|nu=()|fs=()"></span></a></td><td>
             Returns the option back when <a href="F_Orx_Fun_Option_Opt_1_IsSome.htm">IsSome</a>; throws a NullReferenceException when <a href="P_Orx_Fun_Option_Opt_1_IsNone.htm">IsNone</a>.
             Can be called without breaking the flow of chained operations.
             <div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs">var interestRate = GetOptionalUser(input)
@@ -135,7 +148,7 @@ var account = MaybeParseAccount(..)
             <div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs">var interestRate = GetOptionalUser(input)
     .ThrowIfNone("failed to get the user")
     .Map(user =&gt; ComputeInterestRate(user))
-    .Unwrap();</code></pre></div></div></td></tr><tr><td><a href="M_Orx_Fun_Option_Opt_1_ThrowIfNone__1.htm">ThrowIfNone<span id="LST94168003_63" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|fs=&lt;'|nu=("></span>E<span id="LST94168003_64" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|fs=&gt;|nu=)"></span>(Func<span id="LST94168003_65" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|fs=&lt;'|nu=("></span>E<span id="LST94168003_66" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|fs=&gt;|nu=)"></span>)</a></td><td>
+    .Unwrap();</code></pre></div></div></td></tr><tr><td><a href="M_Orx_Fun_Option_Opt_1_ThrowIfNone__1.htm">ThrowIfNone<span id="LST94168003_69" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|fs=&lt;'|nu=("></span>E<span id="LST94168003_70" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|fs=&gt;|nu=)"></span>(Func<span id="LST94168003_71" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|fs=&lt;'|nu=("></span>E<span id="LST94168003_72" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|fs=&gt;|nu=)"></span>)</a></td><td>
             Returns the option back when <a href="F_Orx_Fun_Option_Opt_1_IsSome.htm">IsSome</a>; throws a custom exception when <a href="P_Orx_Fun_Option_Opt_1_IsNone.htm">IsNone</a>.
             Exception thrown when IsNone is created by the provided method <span class="parameter">getException</span>.
             Can be called without breaking the flow of chained operations.
@@ -144,7 +157,7 @@ var account = MaybeParseAccount(..)
     .Map(user =&gt; ComputeInterestRate(user))
     .Unwrap();</code></pre></div></div></td></tr><tr><td><a href="M_Orx_Fun_Option_Opt_1_ToString.htm">ToString</a></td><td>
             Returns the text representation of the option.
-            <br />(Overrides <a href="https://learn.microsoft.com/dotnet/api/system.valuetype.tostring#system-valuetype-tostring" target="_blank" rel="noopener noreferrer">ValueType<span id="LST94168003_67" data-languageSpecificText="cs=.|vb=.|cpp=::|nu=.|fs=."></span>ToString<span id="LST94168003_68" data-languageSpecificText="cs=()|vb=|cpp=()|nu=()|fs=()"></span></a>)</td></tr><tr><td><a href="M_Orx_Fun_Option_Opt_1_Unwrap.htm">Unwrap<span id="LST94168003_69" data-languageSpecificText="cs=()|vb=|cpp=()|nu=()|fs=()"></span></a></td><td>
+            <br />(Overrides <a href="https://learn.microsoft.com/dotnet/api/system.valuetype.tostring#system-valuetype-tostring" target="_blank" rel="noopener noreferrer">ValueType<span id="LST94168003_73" data-languageSpecificText="cs=.|vb=.|cpp=::|nu=.|fs=."></span>ToString<span id="LST94168003_74" data-languageSpecificText="cs=()|vb=|cpp=()|nu=()|fs=()"></span></a>)</td></tr><tr><td><a href="M_Orx_Fun_Option_Opt_1_Unwrap.htm">Unwrap<span id="LST94168003_75" data-languageSpecificText="cs=()|vb=|cpp=()|nu=()|fs=()"></span></a></td><td>
             Returns the underlying value when <a href="F_Orx_Fun_Option_Opt_1_IsSome.htm">IsSome</a>; or throws when <a href="P_Orx_Fun_Option_Opt_1_IsNone.htm">IsNone</a>.
             Must be called shyly, as it is not necessary to unwrap until the final result is achieved due to Map, FlatMap and TryMap methods.
             <div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs">Opt&lt;int&gt; optAge = "42".ParseIntOrNone();
@@ -152,8 +165,8 @@ if (optAge.IsSome) {
     int age = optAge.Unwrap(); // use the uwrapped age
 } else { // handle the None case
 }</code></pre></div></div></td></tr><tr><td><a href="M_Orx_Fun_Option_Opt_1_Unwrap_1.htm">Unwrap(String)</a></td><td>
-            Similar to <a href="M_Orx_Fun_Option_Opt_1_Unwrap.htm">Unwrap<span id="LST94168003_70" data-languageSpecificText="cs=()|vb=|cpp=()|nu=()|fs=()"></span></a> method except that the <span class="parameter">errorMessageIfNone</span> is appended to the error message if <a href="P_Orx_Fun_Option_Opt_1_IsNone.htm">IsNone</a>.
-            </td></tr><tr><td><a href="M_Orx_Fun_Option_Opt_1_UnwrapOr.htm">UnwrapOr(Func<span id="LST94168003_71" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|fs=&lt;'|nu=("></span>T<span id="LST94168003_72" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|fs=&gt;|nu=)"></span>)</a></td><td>
+            Similar to <a href="M_Orx_Fun_Option_Opt_1_Unwrap.htm">Unwrap<span id="LST94168003_76" data-languageSpecificText="cs=()|vb=|cpp=()|nu=()|fs=()"></span></a> method except that the <span class="parameter">errorMessageIfNone</span> is appended to the error message if <a href="P_Orx_Fun_Option_Opt_1_IsNone.htm">IsNone</a>.
+            </td></tr><tr><td><a href="M_Orx_Fun_Option_Opt_1_UnwrapOr.htm">UnwrapOr(Func<span id="LST94168003_77" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|fs=&lt;'|nu=("></span>T<span id="LST94168003_78" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|fs=&gt;|nu=)"></span>)</a></td><td>
             Returns the underlying value when <a href="F_Orx_Fun_Option_Opt_1_IsSome.htm">IsSome</a>; or returns <span class="parameter">lazyFallbackValue</span>() when <a href="P_Orx_Fun_Option_Opt_1_IsNone.htm">IsNone</a>.
             This is a safe way to unwrap the optional, by explicitly handling the None variant.
             Use the eager <a href="M_Orx_Fun_Option_Opt_1_UnwrapOr_1.htm">UnwrapOr(T)</a> variant if the fallback value is cheap or readily available.
@@ -165,7 +178,7 @@ if (optAge.IsSome) {
 }</code></pre></div></div></td></tr><tr><td><a href="M_Orx_Fun_Option_Opt_1_UnwrapOr_1.htm">UnwrapOr(T)</a></td><td>
             Returns the underlying value when <a href="F_Orx_Fun_Option_Opt_1_IsSome.htm">IsSome</a>; or returns the <span class="parameter">fallbackValue</span> when <a href="P_Orx_Fun_Option_Opt_1_IsNone.htm">IsNone</a>.
             This is a safe way to unwrap the optional, by explicitly handling the None variant.
-            Use the lazy <a href="M_Orx_Fun_Option_Opt_1_UnwrapOr.htm">UnwrapOr(Func<span id="LST94168003_73" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|fs=&lt;'|nu=("></span>T<span id="LST94168003_74" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|fs=&gt;|nu=)"></span>)</a> variant if the computation of the fallback value is expensive.
+            Use the lazy <a href="M_Orx_Fun_Option_Opt_1_UnwrapOr.htm">UnwrapOr(Func<span id="LST94168003_79" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|fs=&lt;'|nu=("></span>T<span id="LST94168003_80" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|fs=&gt;|nu=)"></span>)</a> variant if the computation of the fallback value is expensive.
             <div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs">Assert(Some(42).UnwrapOr(7) == 42);
 Assert(None&lt;int&gt;().UnwrapOr(7) == 7);</code></pre></div></div></td></tr><tr><td><a href="M_Orx_Fun_Option_Opt_1_UnwrapOrAsync.htm">UnwrapOrAsync</a></td><td>
             (async version)
@@ -178,13 +191,13 @@ Assert(None&lt;int&gt;().UnwrapOr(7) == 7);</code></pre></div></div></td></tr><t
     // note that, collection.Count() might be expensive requiring linear search.
     // lazy call avoids this call when givenCapacity.IsSome.
     return givenCapacity.UnwrapOr(() =&gt; collection.Count());
-}</code></pre></div></div></td></tr></table></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Operators</h2><div id="IDOGASection"><table id="OperatorList" class="table is-hoverable"><tr><td><a href="M_Orx_Fun_Option_Opt_1_op_Equality.htm">Equality(Opt<span id="LST94168003_75" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|fs=&lt;'|nu=("></span>T<span id="LST94168003_76" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|fs=&gt;|nu=)"></span>, Opt<span id="LST94168003_77" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|fs=&lt;'|nu=("></span>T<span id="LST94168003_78" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|fs=&gt;|nu=)"></span>)</a></td><td>
+}</code></pre></div></div></td></tr></table></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Operators</h2><div id="IDOGASection"><table id="OperatorList" class="table is-hoverable"><tr><td><a href="M_Orx_Fun_Option_Opt_1_op_Equality.htm">Equality(Opt<span id="LST94168003_81" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|fs=&lt;'|nu=("></span>T<span id="LST94168003_82" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|fs=&gt;|nu=)"></span>, Opt<span id="LST94168003_83" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|fs=&lt;'|nu=("></span>T<span id="LST94168003_84" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|fs=&gt;|nu=)"></span>)</a></td><td>
             Returns true if both values are <a href="F_Orx_Fun_Option_Opt_1_IsSome.htm">IsSome</a> and their unwrapped values are equal; false otherwise.
             <div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs">AssertEqual(None&lt;int&gt;() == None&lt;int&gt;(), false);
 AssertEqual(None&lt;int&gt;() == Some(42), false);
 AssertEqual(Some(42) == None&lt;int&gt;(), false);
 AssertEqual(Some(42) == Some(7), false);
-AssertEqual(Some(42) == Some(42), true);</code></pre></div></div></td></tr><tr><td><a href="M_Orx_Fun_Option_Opt_1_op_Inequality.htm">Inequality(Opt<span id="LST94168003_79" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|fs=&lt;'|nu=("></span>T<span id="LST94168003_80" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|fs=&gt;|nu=)"></span>, Opt<span id="LST94168003_81" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|fs=&lt;'|nu=("></span>T<span id="LST94168003_82" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|fs=&gt;|nu=)"></span>)</a></td><td>
+AssertEqual(Some(42) == Some(42), true);</code></pre></div></div></td></tr><tr><td><a href="M_Orx_Fun_Option_Opt_1_op_Inequality.htm">Inequality(Opt<span id="LST94168003_85" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|fs=&lt;'|nu=("></span>T<span id="LST94168003_86" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|fs=&gt;|nu=)"></span>, Opt<span id="LST94168003_87" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|fs=&lt;'|nu=("></span>T<span id="LST94168003_88" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|fs=&gt;|nu=)"></span>)</a></td><td>
             Returns true if either value is <a href="P_Orx_Fun_Option_Opt_1_IsNone.htm">IsNone</a> or their unwrapped values are not equal; false otherwise.
             <div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs">AssertEqual(None&lt;int&gt;() != None&lt;int&gt;(), true);
 AssertEqual(None&lt;int&gt;() != Some(42), true);
