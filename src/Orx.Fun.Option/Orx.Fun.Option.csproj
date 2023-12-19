@@ -8,7 +8,7 @@
   </PropertyGroup>
 
 	<PropertyGroup>
-		<VersionPrefix>1.2.1</VersionPrefix>
+		<VersionPrefix>1.3.0</VersionPrefix>
 		<Description>An option type for C# aiming to be explicit while concise.</Description>
 		<PackageProjectUrl>https://orxfun.github.io/orx-fun-option/</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/orxfun/orx-fun-option</RepositoryUrl>
