@@ -367,6 +367,25 @@ public readonly struct Opt<T> : IEquatable<Opt<T>>
             return new();
     }
     /// <summary>
+    /// Combines two options: this and <paramref name="lazyOther"/> as follows:
+    /// <list type="bullet">
+    /// <item>returns Some of a tuple of both values if both options are Some;</item>
+    /// <item>returns None otherwise.</item>
+    /// </list>
+    /// 
+    /// <paramref name="lazyOther"/> is computed only if this is Some.
+    /// 
+    /// </summary>
+    /// <param name="lazyOther">Other option to combine with; lazily evaluated only if this is Some.</param>
+    /// <returns></returns>
+    public Opt<(T, T2)> And<T2>(Func<Opt<T2>> lazyOther)
+    {
+        if (IsNone)
+            return default;
+        else
+            return And(lazyOther());
+    }
+    /// <summary>
     /// Combines two options: this and <paramref name="other"/> as follows:
     /// <list type="bullet">
     /// <item>returns this if this is Some;</item>
